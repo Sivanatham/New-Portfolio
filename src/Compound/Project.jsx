@@ -5,14 +5,19 @@ import project1 from "../assets/local food.jpg";
 import project2 from "../assets/scanner image.jpg";
 import project3 from "../assets/Screenshot (168).png";
 
-gsap.registerPlugin(ScrollTrigger);
+// gsap.registerPlugin(ScrollTrigger);
 
 function Project(){
      const caref = useRef(null);
      
 
 useEffect(()=>{
+    const isMobile = window.innerWidth < 368;
     
+      if (isMobile) {
+        gsap.set(".card-grid", { opacity: 1, y: 0 });
+        return;
+      }
     setTimeout(()=>{
       
       gsap.set(".card-grid", { opacity: 0, y: 100 });

@@ -6,28 +6,30 @@ import {TypeAnimation} from 'react-type-animation'
 
 gsap.registerPlugin(ScrollTrigger);
 function About(){
-
+   
   useEffect(()=>{
-    
-    setTimeout(()=>{
-      
-      gsap.set(".about", { opacity: 0, y:80 });
+   const isMobile = window.innerWidth < 368;
+
+  if (isMobile) {
+    gsap.set(".about", { opacity: 1, y: 0 });
+    return;
+  }
+     gsap.set(".about", { opacity: 0, y:80 });
       gsap.to(".about",
     {
       scrollTrigger:{
         trigger: ".about",
-        start:"top 90%",
+        start: isMobile ? "top 90%" : "top 80%",
         toggleActions:"restart none none none"
       },
       
       opacity:1,
       y:0,
-      duration:1.5,
+      duration: isMobile ? 0.4 : 1.5,
       ease: "power3.out",
-      stagger: 0.5,
-    }
-    );
-    },100)
+      // stagger: 0.5,
+    });
+    setTimeout(() => ScrollTrigger.refresh(), 20);
 },[]);
     return(
        <>

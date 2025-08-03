@@ -101,7 +101,7 @@ const Silks = ({
       if (!containerRef.current) return;
 
       const renderer = new Renderer({
-        dpr: Math.min(window.devicePixelRatio, 2),
+        dpr: Math.min(window.devicePixelRatio, 1.5),
         alpha: true,
       });
       rendererRef.current = renderer;
@@ -217,40 +217,54 @@ void main() {
   gl_FragColor  = color;
 }`;
 
-      const uniforms = {
-        iTime: { value: 0 },
-        iResolution: { value: [1, 1] },
+     const uniforms = {
+  iTime: { value: 0 },
+  iResolution: { value: [1, 1] },
 
-        rayPos: { value: [0, 0] },
-        rayDir: { value: [0, 1] },
+  rayPos: { value: [0, 0] },
+  rayDir: { value: [0, 1] },
 
-        raysColor: { value: hexToRgb(raysColor) },
-        raysSpeed: { value: raysSpeed },
-        lightSpread: { value: lightSpread },
-        rayLength: { value: rayLength },
-        pulsating: { value: pulsating ? 1.0 : 0.0 },
-        fadeDistance: { value: fadeDistance },
-        saturation: { value: saturation },
-        mousePos: { value: [0.5, 0.5] },
-        mouseInfluence: { value: mouseInfluence },
-        noiseAmount: { value: noiseAmount },
-        distortion: { value: distortion },
-      };
-      uniformsRef.current = uniforms;
+  raysColor: { value: hexToRgb(raysColor) },
+  raysSpeed: { value: raysSpeed },
+  lightSpread: { value: lightSpread },
+  rayLength: { value: rayLength },
+  pulsating: { value: pulsating ? 1.0 : 0.0 },
+  fadeDistance: { value: fadeDistance },
+  saturation: { value: saturation },
+  mousePos: { value: [0.5, 0.5] },
+  mouseInfluence: { value: mouseInfluence },
+  noiseAmount: { value: noiseAmount },
+  distortion: { value: distortion },
+};
 
-      const geometry = new Triangle(gl);
-      const program = new Program(gl, {
-        vertex: vert,
-        fragment: frag,
-        uniforms,
-      });
+// ✅ Add this immediately after defining uniforms
+const isMobile = window.innerWidth < 368;
+if (isMobile) {
+  uniforms.rayLength.value = 3.0;       // 🔥 Make rays much longer
+  uniforms.lightSpread.value = 2.5;     // Optional: fan out a bit more
+  uniforms.noiseAmount.value = 0.02;    // Optional: soft glow
+  uniforms.distortion.value = 0.05;     // Optional: little distortion
+} else {
+  uniforms.rayLength.value = 1.8;
+  uniforms.lightSpread.value = 1.5;
+}
+
+uniformsRef.current = uniforms;
+
+const geometry = new Triangle(gl);
+const program = new Program(gl, {
+  vertex: vert,
+  fragment: frag,
+  uniforms,
+});
+
       const mesh = new Mesh(gl, { geometry, program });
       meshRef.current = mesh;
 
       const updatePlacement = () => {
         if (!containerRef.current || !renderer) return;
 
-        renderer.dpr = Math.min(window.devicePixelRatio, 2);
+        renderer.dpr = Math.min(window.devicePixelRatio, 1.5);
 
         const { clientWidth: wCSS, clientHeight: hCSS } = containerRef.current;
         renderer.setSize(wCSS, hCSS);
@@ -299,6 +313,7 @@ void main() {
       };
 
       window.addEventListener("resize", updatePlacement);
+      window.addEventListener("orientationchange", updatePlacement);
       updatePlacement();
       animationIdRef.current = requestAnimationFrame(loop);
 
@@ -309,6 +324,7 @@ void main() {
         }
 
         window.removeEventListener("resize", updatePlacement);
+        window.removeEventListener("orientationchange", updatePlacement);
 
         if (renderer) {
           try {
@@ -402,10 +418,19 @@ void main() {
       const y = (e.clientY - rect.top) / rect.height;
       mouseRef.current = { x, y };
     };
-
+    const handleTouchMove = (e) => {
+    const rect = containerRef.current.getBoundingClientRect();
+    const touch = e.touches[0];
+    const x = (touch.clientX - rect.left) / rect.width;
+    const y = (touch.clientY - rect.top) / rect.height;
+    mouseRef.current = { x, y };
+  };
     if (followMouse) {
       window.addEventListener("mousemove", handleMouseMove);
-      return () => window.removeEventListener("mousemove", handleMouseMove);
+      window.addEventListener("touchmove", handleTouchMove);
+      return () => 
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("touchmove", handleTouchMove);  
     }
   }, [followMouse]);
 

@@ -9,7 +9,7 @@ function App(){
 
   return(
     <>
-      <div style={{ position: "absolute", zIndex: -1, top: 0, left: 0, width: "100%", height: "100%",pointerEvents: "none" }}>
+      <div style={{ position: "absolute", zIndex: -1, top: 0, left: 0, width: "100vw", height: "100vh",pointerEvents: "none" }}>
         <Silks raysOrigin="top-center"
           raysColor="#39008f"
           raysSpeed={1.5}
