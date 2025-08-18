@@ -12,7 +12,7 @@ function Project(){
      
 
 useEffect(()=>{
-    const isMobile = window.innerWidth < 368;
+    const isMobile = window.innerWidth < 767;
     
       if (isMobile) {
         gsap.set(".card-grid", { opacity: 1, y: 0 });

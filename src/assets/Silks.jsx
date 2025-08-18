@@ -237,17 +237,29 @@ void main() {
   distortion: { value: distortion },
 };
 
-// ✅ Add this immediately after defining uniforms
-const isMobile = window.innerWidth < 368;
-if (isMobile) {
-  uniforms.rayLength.value = 3.0;       // 🔥 Make rays much longer
-  uniforms.lightSpread.value = 2.5;     // Optional: fan out a bit more
-  uniforms.noiseAmount.value = 0.02;    // Optional: soft glow
-  uniforms.distortion.value = 0.05;     // Optional: little distortion
+
+const isSmallPhone = window.matchMedia("(max-width: 367px)").matches;
+const isMobile = window.matchMedia("(max-width: 767px)").matches;
+
+if (isSmallPhone) {
+  
+  uniforms.rayLength.value = 2.8;
+  uniforms.lightSpread.value = 0.5;  
+  uniforms.noiseAmount.value = 0.01;
+  uniforms.distortion.value = 0.02;
+} else if (isMobile) {
+  
+  uniforms.rayLength.value = 2.2;
+  uniforms.lightSpread.value = 0.5;
+  uniforms.noiseAmount.value = 0.015;
+  uniforms.distortion.value = 0.03;
 } else {
+  
   uniforms.rayLength.value = 1.8;
   uniforms.lightSpread.value = 1.5;
 }
+
+
 
 uniformsRef.current = uniforms;
 

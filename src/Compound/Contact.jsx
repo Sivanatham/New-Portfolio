@@ -6,7 +6,7 @@ gsap.registerPlugin(ScrollTrigger);
 function Contact(){
 
     useEffect(()=>{
-        const isMobile = window.innerWidth < 368;
+        const isMobile = window.innerWidth < 767;
             
               if (isMobile) {
                 gsap.set(".contact", { opacity: 1, y: 0 });

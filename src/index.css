@@ -318,7 +318,7 @@ html, body {
 
 
 
-@media (max-width: 368px) {
+@media (max-width: 767px) {
   *{
   margin: 0;
   padding: 0;
@@ -349,11 +349,11 @@ html, body {
   }
   .about p{
     font-size: 20px;
-    text-align:left;
+    text-align:justify;
     text-justify: inter-word;
     width: 300px;
     margin-top: 85px;
-    margin-left: 20px;
+    margin-left: 35px;
     margin-right:20px;
     word-spacing: 2px;
     letter-spacing:1px;
