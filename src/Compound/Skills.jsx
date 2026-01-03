@@ -22,20 +22,19 @@ useEffect(()=>{
             <div className="skills-grid" ref={caref}>
                 <div className="skill-card">HTML</div>
                 <div className="skill-card">CSS</div>
-                <div className="skill-card">JavaScript</div>
                 <div className="skill-card">React.js</div>
                 <div className="skill-card">Node.js</div>
                 <div className="skill-card">Express.js</div>
                 <div className="skill-card">MongoDb</div>
                 <div className="skill-card" >Git  and  GitHub</div>
                 <div className="skill-card">REST API</div>
-                <div className="skill-card">Google    Cloud</div>
+                <div className="skill-card">Google Cloud</div>
             </div>
             <h1 >Programming Languages</h1>
                  <div className="skills-grid">
                 <div className="skill-card">Python</div>
                 <div className="skill-card">JAVA</div>
-                <div className="skill-card">C++</div>
+                <div className="skill-card">JavaScript</div>
             </div>
             <h1 >Tools and Libraries</h1>
              <div className="skills-grid">
