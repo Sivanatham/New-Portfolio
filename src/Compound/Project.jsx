@@ -1,74 +1,133 @@
-import React,{useEffect, useRef}  from "react";
-import {gsap} from "gsap";
+import React, { useEffect, useRef } from "react";
+import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+
 import project1 from "../assets/local food.jpg";
 import project2 from "../assets/scanner image.jpg";
 import project3 from "../assets/Screenshot (168).png";
 
-// gsap.registerPlugin(ScrollTrigger);
+gsap.registerPlugin(ScrollTrigger);
 
-function Project(){
-     const caref = useRef(null);
-     
+function Project() {
+  const ref = useRef(null);
 
-useEffect(()=>{
-    const isMobile = window.innerWidth < 767;
-    
-      if (isMobile) {
-        gsap.set(".card-grid", { opacity: 1, y: 0 });
-        return;
-      }
-    setTimeout(()=>{
-      
-      gsap.set(".card-grid", { opacity: 0, y: 100 });
-      gsap.to(".card-grid",
+  // 🔹 PROJECT DATA (same file)
+  const projects = [
     {
-      scrollTrigger:{
-        trigger: ".card-grid",
-        start:"top 50%",
-        toggleActions:"restart none none none"
+      title: "Delicious – Food Delivery Web App",
+      desc:
+        "A full-stack MERN food delivery application that enables users to explore menus, manage carts, and place orders through a clean, responsive, and user-friendly interface.",
+      image: project1,
+      links: {
+        live:
+          "https://www.linkedin.com/posts/sivanathan007_mernstack-reactjs-nodejs-activity-7355212964641034240-ykfT",
+        github:
+          "https://github.com/Sivanatham/Home-made-food-delivery.git",
       },
-      
-      opacity:1,
-      y:0,
-      duration:1.5,
-      ease: "power3.out",
-      stagger: 0.5,
-    }
-    );
-    },100)
-},[]);
-    return(
-        <div className="project" id="project" >
-            <h2>Hands-on Implementation</h2>
-         <div className="card-grid" ref={caref}>
-              <div className="card">
-             <img src={project1} alt="Local food delivery" />
-            <p>A full-stack MERN stack web application that connects local chefs with hungry users.</p>
-            <div className="btns">
-                <a href="https://www.linkedin.com/posts/sivanathan007_mernstack-reactjs-nodejs-activity-7355212964641034240-ykfT?utm_source=share&utm_medium=member_desktop&rcm=ACoAAFJcUQoB1E-yckK3gJcdnw7a_7rfxBF6oJQ" target="_blank" className="tag1">Live Demo</a>
-        
-                <a href="https://github.com/Sivanatham/Home-made-food-delivery.git" target="_blank" className="tag2">GitHub</a>
+    },
+    {
+      title: "Snap2QR – Image Sharing via QR",
+      desc:
+        "A lightweight web application that allows real-time image sharing and compressionusing QR codes, focusing on performance, simplicity, and secure access.",
+      image: project2,
+      links: {
+        live:
+          "https://www.linkedin.com/posts/sivanathan007_webdevelopment-github-javascript-activity-7349974378433966081-qDqa",
+        github: "https://github.com/Sivanatham/Snap2qr.git",
+      },
+    },
+    {
+      title: "Restaurant Website",
+      desc:
+        "A fully responsive static website designed for a local restaurant,built using HTML, CSS, and JavaScript with an emphasis on modern UI and accessibility.",
+      image: project3,
+      links: {
+        live:
+          "https://siva-60034643944.development.catalystserverless.in/app/index.html",
+        mobile:
+          "https://www.linkedin.com/posts/sivanathan007_mobile-phone-view-activity-7258113234920996864-7zP3",
+      },
+    },
+  ];
+
+useEffect(() => {
+  const isMobile = window.innerWidth < 768;
+  if (isMobile) return;
+
+  gsap.from(".card", {
+    y: 60,
+    duration: 0.8,
+    stagger: 0.25,
+    ease: "power3.out",
+    scrollTrigger: {
+      trigger: ".card-grid",
+      start: "top 85%",
+      once: true,
+    },
+  });
+}, []);
+
+
+
+
+
+  return (
+    <section className="project" id="project">
+      <h2>
+        Featured <span>Projects</span>
+      </h2>
+
+      <div className="card-grid" ref={ref}>
+        {projects.map((project, index) => (
+          <div className="card" key={index}>
+            <div className="card-img">
+              <img src={project.image} alt={project.title} />
             </div>
-           </div>
-           <div className="card" >
-             <img src={project2} alt="Local food delivery" />
-            <p>Its a Lightweight Application Real Time Image sharing and Compressing using QR code</p>
-            <div className="btns">
-                <a href="https://www.linkedin.com/posts/sivanathan007_webdevelopment-github-javascript-activity-7349974378433966081-qDqa?utm_source=share&utm_medium=member_desktop&rcm=ACoAAFJcUQoB1E-yckK3gJcdnw7a_7rfxBF6oJQ" target="_blank" className="tag1">Live Demo</a>
-                <a href="https://github.com/Sivanatham/Snap2qr.git" target="_blank" className="tag2">GitHub</a>
+
+            <div className="card-content">
+              <h3>{project.title}</h3>
+              <p>{project.desc}</p>
+
+              <div className="btns">
+                {project.links.live && (
+                  <a
+                    href={project.links.live}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="tag1"
+                  >
+                    Live Demo
+                  </a>
+                )}
+
+                {project.links.github && (
+                  <a
+                    href={project.links.github}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="tag2"
+                  >
+                    GitHub
+                  </a>
+                )}
+
+                {project.links.mobile && (
+                  <a
+                    href={project.links.mobile}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="tag3"
+                  >
+                    Mobile View
+                  </a>
+                )}
+              </div>
             </div>
-           </div>
-           <div className="card" >
-             <img src={project3} alt="Local food delivery" />
-            <p>My first web application a fully responsive static website for a local restaurant.</p>
-            <div className="btns">
-                <a href="https://siva-60034643944.development.catalystserverless.in/app/index.html" target="_blank" className="tag1">Live Demo</a>
-                <a href="https://www.linkedin.com/posts/sivanathan007_mobile-phone-view-activity-7258113234920996864-7zP3?utm_source=share&utm_medium=member_desktop&rcm=ACoAAFJcUQoB1E-yckK3gJcdnw7a_7rfxBF6oJQ" target="_blank" className="tag3">Mobile view</a>
-            </div>
-           </div>
-         </div>
-        </div>
-    );
+          </div>
+        ))}
+      </div>
+    </section>
+  );
 }
+
 export default Project;
